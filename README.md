@@ -15,8 +15,8 @@ import (
 )
 
 type DBConfig struct {
-		Username string `comment:"this is the username of database"`
-		Password string `comment:"this is the password of database"`
+	Username string `comment:"this is the username of database"`
+	Password string `comment:"this is the password of database"`
 }
 
 func main(){
