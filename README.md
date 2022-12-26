@@ -10,16 +10,16 @@ Inspired by [The doc's encoder of talos](https://github.com/siderolabs/talos/blo
 package main
 
 import (
-	"fmt"
-	encoder "github.com/zwgblue/yaml-encoder"
+  "fmt"
+  encoder "github.com/zwgblue/yaml-encoder"
 )
 
 type DBConfig struct {
-	Username string `comment:"this is the username of database"`
-	Password string `comment:"this is the password of database"`
+  Username string `comment:"this is the username of database"`
+  Password string `comment:"this is the password of database"`
 }
 
-func main(){
+func main() {
     config := DBConfig{
       Username: "root",
       Password: "xxxxxx",
@@ -38,4 +38,10 @@ output:
 username: root
 # this is the password of database
 password: xxxxxx
+```
+
+If you don't like to use the `comment` tag, you could use the `WithCustomizedTag` to change:
+
+```go
+encoder := encoder.NewEncoder(config, encoder.WithCustomizedTag("yourTagName"))
 ```

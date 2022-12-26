@@ -26,3 +26,24 @@ func ExampleEncoder() {
 	// # this is the password of database
 	// password: xxxxxx
 }
+
+func ExampleWithCustomizedTag() {
+	type DBConfig struct {
+		Username string `description:"this is the username of database"`
+		Password string `description:"this is the password of database"`
+	}
+
+	config := DBConfig{
+		Username: "root",
+		Password: "xxxxxx",
+	}
+
+	encoder := encoder.NewEncoder(config, encoder.WithComments(encoder.CommentsOnHead), encoder.WithCustomizedTag("description"))
+	content, _ := encoder.Encode()
+	fmt.Printf("%s", content)
+	// Output:
+	// # this is the username of database
+	// username: root
+	// # this is the password of database
+	// password: xxxxxx
+}

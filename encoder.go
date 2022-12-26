@@ -30,14 +30,16 @@ const (
 
 // Options defines encoder config.
 type Options struct {
-	CommentsFlag CommentsFlag
-	OmitEmpty    bool
+	CommentsFlag   CommentsFlag
+	OmitEmpty      bool
+	CommentTagName string
 }
 
 func newOptions(opts ...Option) *Options {
 	res := &Options{
-		CommentsFlag: CommentsDisabled,
-		OmitEmpty:    true,
+		CommentsFlag:   CommentsDisabled,
+		OmitEmpty:      true,
+		CommentTagName: "comment", // default
 	}
 
 	for _, o := range opts {
@@ -61,6 +63,15 @@ func WithComments(flag CommentsFlag) Option {
 func WithOmitEmpty(value bool) Option {
 	return func(o *Options) {
 		o.OmitEmpty = value
+	}
+}
+
+// WithCustomizedTag use customized tag for comment
+func WithCustomizedTag(tagName string) Option {
+	return func(o *Options) {
+		if tagName != "" {
+			o.CommentTagName = tagName
+		}
 	}
 }
 
@@ -192,7 +203,7 @@ func toYamlNode(in interface{}, options *Options) (*yaml.Node, error) {
 				continue
 			}
 
-			comment := t.Field(i).Tag.Get("comment")
+			comment := t.Field(i).Tag.Get(options.CommentTagName)
 			tag := t.Field(i).Tag.Get("yaml")
 			parts := strings.Split(tag, ",")
 			fieldName := parts[0]
